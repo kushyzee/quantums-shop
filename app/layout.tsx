@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { Orbitron } from "next/font/google";
+import { Orbitron, Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header";
+
+export const inter = Inter({ subsets: ["latin"] });
 
 export const orbitron = Orbitron({
   subsets: ["latin"],
@@ -33,9 +36,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.className}>
       <body className="antialiased">
-        {/* Header */}
+        <Header />
         <main>{children}</main>
       </body>
     </html>
