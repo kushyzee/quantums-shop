@@ -6,7 +6,7 @@ import Stat from "./Stat";
 
 export default function Hero() {
   return (
-    <div className="relative z-20 bg-linear-to-b from-gradient to-surface-base px-4 py-20">
+    <div className="relative z-20 bg-linear-to-b from-gradient to-surface-base px-5 py-20">
       <div className="flex justify-center">
         <Badge className="bg-muted">
           <Zap className="text-accent-green" />
