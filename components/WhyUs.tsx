@@ -7,7 +7,7 @@ import { ShieldCheck, Zap, TrendingUp } from "lucide-react";
 export default function WhyUs() {
   return (
     <SectionHeader
-      title="Why Us"
+      title="Why Choose"
       highlightedWord="Quantum?"
       subtitle="Join thousands of satisfied customers who trust us for their digital needs"
       className="bg-muted"
