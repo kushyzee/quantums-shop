@@ -1,11 +1,15 @@
 import Hero from "@/components/Hero";
+import OurServices from "@/components/OurServices";
 import RatesCarousel from "@/components/RatesCarousel";
+import WhyUs from "@/components/WhyUs";
 
 export default function Page() {
   return (
     <div>
       <Hero />
       <RatesCarousel />
+      <OurServices />
+      <WhyUs />
     </div>
   );
 }

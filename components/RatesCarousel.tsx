@@ -2,7 +2,7 @@ import { ratesTicker } from "@/lib/config";
 import { Circle } from "lucide-react";
 export default function RatesCarousel() {
   return (
-    <div className="bg-muted border-t border-b border-primary/50 overflow-hidden p-4 mb-10">
+    <div className="bg-muted border-t border-b border-primary/50 overflow-hidden p-4">
       <div className="flex relative">
         <div className="absolute left-0 top-0 z-10 bottom-0 w-10 bg-gradient-to-r from-muted to-transparent"></div>
         <div className="absolute right-0 top-0 z-10 bottom-0 w-10 bg-gradient-to-l from-muted to-transparent"></div>

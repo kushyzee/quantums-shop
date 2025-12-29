@@ -53,14 +53,14 @@
   --gradient: oklch(25% 0.04 250);
   --surface-base: oklch(8% 0.01 255); /* Deepest bg */
   --surface-header: oklch(10% 0.02 260); /* Header/Footer */
-  --card: oklch(8% 0.03 255);
+  --card: oklch(11% 0.03 260);
   --card-foreground: oklch(0.145 0 0);
   --primary: oklch(62% 0.2 250);
   --primary-foreground: oklch(0.97 0.014 254.604);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(9% 0.03 260); /* Badges / stats */
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: oklch(11% 0.03 260); /* Badges / stats */
+  --muted-foreground: oklch(0.656 0 0);
   --accent: oklch(0.97 0 0);
   --accent-green: oklch(69% 0.14 165);
   --accent-foreground: oklch(0.205 0 0);
