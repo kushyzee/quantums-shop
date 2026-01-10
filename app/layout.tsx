@@ -40,7 +40,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body className="antialiased">
         <Header />
-        <main>{children}</main>
+        <main className="mt-16">{children}</main>
         <Footer />
       </body>
     </html>

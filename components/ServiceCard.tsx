@@ -30,7 +30,7 @@ export default function ServiceCard({
   const whatsappUrl = getWhatsappUrl(message);
 
   return (
-    <Card className="ring-primary/30 pt-0 hover:ring-primary/50 transition-all duration-200">
+    <Card className="ring-primary/30 pt-0 hover:shadow-lg card-glow transition-all duration-200">
       <CardHeader className="px-0">
         <div className="h-[295px] w-full">
           <Image

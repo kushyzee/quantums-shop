@@ -90,6 +90,14 @@
   }
 }
 
+.glow:hover {
+  box-shadow: 0 0 10px rgb(0, 153, 255);
+}
+
+.card-glow:hover {
+  box-shadow: 0 0 15px rgba(0, 153, 255, 0.7);
+}
+
 .animate-scroll {
   animation: scroll 60s linear infinite;
 }

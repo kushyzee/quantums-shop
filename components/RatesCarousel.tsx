@@ -9,22 +9,24 @@ export default function RatesCarousel() {
 
         <div className="overflow-hidden flex">
           <div className="flex gap-12 animate-scroll items-center">
-            {[...ratesTicker, ...ratesTicker, ...ratesTicker].map((rate) => {
-              const Icon = rate.icon;
+            {[...ratesTicker, ...ratesTicker, ...ratesTicker].map(
+              (rate, index) => {
+                const Icon = rate.icon;
 
-              return (
-                <div
-                  key={rate.id}
-                  className="flex justify-center items-center gap-12 shrink-0"
-                >
-                  <div className="flex justify-center items-center gap-2 w-full">
-                    <Icon className="w-6 h-6 text-primary" />
-                    <p className="w-full">{rate.name}</p>
+                return (
+                  <div
+                    key={rate.id + index}
+                    className="flex justify-center items-center gap-12 shrink-0"
+                  >
+                    <div className="flex justify-center items-center gap-2 w-full">
+                      <Icon className="w-6 h-6 text-primary" />
+                      <p className="w-full">{rate.name}</p>
+                    </div>
+                    <Circle className="w-2 h-2 bg-white rounded-full" />
                   </div>
-                  <Circle className="w-2 h-2 bg-white rounded-full" />
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
         </div>
       </div>
