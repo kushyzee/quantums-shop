@@ -9,7 +9,7 @@ import {
 } from "./ui/card";
 import { ArrowUpRight, CheckCheck } from "lucide-react";
 import { orbitron } from "@/app/layout";
-import { cn } from "@/lib/utils";
+import { cn, getWhatsappUrl } from "@/lib/utils";
 import { Button } from "./ui/button";
 
 interface ServiceCardProps {
@@ -17,6 +17,7 @@ interface ServiceCardProps {
   title: string;
   description: string;
   subServices: string[];
+  message: string;
 }
 
 export default function ServiceCard({
@@ -24,9 +25,12 @@ export default function ServiceCard({
   title,
   description,
   subServices,
+  message,
 }: ServiceCardProps) {
+  const whatsappUrl = getWhatsappUrl(message);
+
   return (
-    <Card className="ring-primary pt-0">
+    <Card className="ring-primary/30 pt-0 hover:ring-primary/50 transition-all duration-200">
       <CardHeader className="px-0">
         <div className="h-[295px] w-full">
           <Image
@@ -55,8 +59,17 @@ export default function ServiceCard({
         </ul>
       </CardContent>
       <CardFooter className="border-none">
-        <a className="w-full text-primary" href="#">
-          <Button size="lg" variant="outline" className="w-full">
+        <a
+          className="w-full text-primary"
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full border-primary/30 hover:border-primary/50 hover:bg-muted transition-all duration-200"
+          >
             Trade Now <ArrowUpRight />
           </Button>
         </a>

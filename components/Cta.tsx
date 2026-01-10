@@ -11,7 +11,7 @@ import WhatsappButton from "./WhatsappButton";
 
 export default function Cta() {
   return (
-    <Card className="mt-20 ring-primary py-5">
+    <Card className="mt-20 ring-primary/30 py-5 hover:ring-primary/50 transition-all duration-200">
       <CardHeader>
         <CardTitle
           className={cn(

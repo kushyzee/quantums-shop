@@ -20,6 +20,7 @@ export default function OurServices() {
           title="Payment Methods"
           description="Buy & sell digital wallet balances"
           subServices={["PayPal", "Zelle", "Cash App", "Skrill & More"]}
+          message="Hello Quantum, I want to receive funds"
         />
         <ServiceCard
           image={usdt}
@@ -31,6 +32,7 @@ export default function OurServices() {
             "Ethereum (ETH)",
             "Other Altcoins",
           ]}
+          message="Hello Quantum, I want to trade crypto"
         />
         <ServiceCard
           image={codm}
@@ -42,12 +44,14 @@ export default function OurServices() {
             "Mobile Legends",
             "Free Fire Diamonds",
           ]}
+          message="Hello Quantum, I want to top-up my game"
         />
         <ServiceCard
           image={psn}
           title="Gift Cards"
           description="Premium gift cards at competitive rates"
           subServices={["PlayStation (PSN)", "iTunes", "Steam", "Google Play"]}
+          message="Hello Quantum, I want to buy gift cards"
         />
       </div>
     </SectionHeader>

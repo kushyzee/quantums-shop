@@ -2,20 +2,39 @@ import { orbitron } from "@/app/layout";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
 import WhatsappButton from "./WhatsappButton";
+import Link from "next/link";
+import { Badge } from "./ui/badge";
+
+const quickLinks = [
+  {
+    link: "#our-services",
+    name: "Our Services",
+  },
+  {
+    link: "#why-us",
+    name: "Why Us",
+  },
+  {
+    link: "#how-it-works",
+    name: "How It Works",
+  },
+];
 
 export default function Footer() {
   return (
     <footer className="bg-surface-header pt-28 px-5 pb-5">
-      <div className="flex mb-16">
+      <div className="flex flex-col mb-16 gap-16">
         <div>
-          <div className="flex gap-2 items-center mb-1.5">
+          <div className="flex gap-2 items-center mb-3">
             <Image
-              className="w-8 h-auto"
+              className="w-10 h-auto"
               src={logo}
               alt="quantum's shop logo"
-              width={32}
+              width={40}
             />
-            <p className={`font-bold ${orbitron.className}`}>Quantums Shop</p>
+            <p className={`font-bold ${orbitron.className} text-lg`}>
+              Quantums Shop
+            </p>
           </div>
           <p className="text-muted-foreground mb-7">
             Your trusted partner for gaming top-ups, gift cards, and crypto
@@ -24,12 +43,44 @@ export default function Footer() {
           <WhatsappButton />
         </div>
 
-        <div></div>
+        <div>
+          <p className={`${orbitron.className} text-lg font-bold`}>
+            Quick Links
+          </p>
+          <ul className="space-y-4 mt-5">
+            {quickLinks.map((item) => (
+              <li key={item.name} className="text-muted-foreground">
+                <Link href={item.link}>{item.name}</Link>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-        <div></div>
+        <div>
+          <p className={`${orbitron.className} text-lg font-bold`}>
+            We Accept/Trade
+          </p>
+          <ul className="mt-5 flex gap-4 items-center">
+            <li>
+              <Badge className="bg-footer-badge text-muted-foreground">
+                Bitcoin
+              </Badge>
+            </li>
+            <li>
+              <Badge className="bg-footer-badge text-muted-foreground">
+                Bank
+              </Badge>
+            </li>
+            <li>
+              <Badge className="bg-footer-badge text-muted-foreground">
+                E-wallet
+              </Badge>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <div className="pt-10 border-t border-primary/35">
+      <div className="pt-10 border-t border-primary/20">
         <p className="text-center text-muted-foreground text-sm">
           &copy; {new Date().getFullYear()} Quantums Shop. All rights reserved.{" "}
         </p>
