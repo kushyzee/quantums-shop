@@ -1,8 +1,18 @@
+"use client";
+
 import Image from "next/image";
 import SectionHeader from "./SectionHeader";
 import whyUs from "@/assets/why-us.png";
 import WhyUsCard from "./WhyUsCard";
 import { ShieldCheck, Zap, TrendingUp } from "lucide-react";
+import { motion, Transition } from "motion/react";
+
+export const whyUsTransition: Transition = {
+  duration: 0.5,
+  type: "spring",
+  stiffness: 200,
+  damping: 10,
+};
 
 export default function WhyUs() {
   return (
@@ -14,28 +24,37 @@ export default function WhyUs() {
       id="why-us"
     >
       <div className="mt-16 max-w-[1200px] mx-auto md:flex md:gap-8 justify-between items-center">
-        <div className="grow max-w-[500px] mx-auto">
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ amount: 0.4, once: true }}
+          transition={whyUsTransition}
+          className="grow max-w-[500px] mx-auto"
+        >
           <Image
             src={whyUs}
             alt="Why Us"
             className="h-full w-full object-cover"
           />
-        </div>
+        </motion.div>
         <div className="mt-20 md:mt-0 space-y-12 md:max-w-[400px] lg:max-w-[600px]">
           <WhyUsCard
             Icon={ShieldCheck}
             title="120% Legit"
             description="Every transaction is secure and verified. We've built our reputation on trust and transparency with thousands of satisfied customers."
+            delay={0}
           />
           <WhyUsCard
             Icon={Zap}
             title="Instant Funding"
             description="Get your funds in under 5 minutes. No delays, no excuses. We process transactions lightning-fast, 24/7."
+            delay={0.2}
           />
           <WhyUsCard
             Icon={TrendingUp}
             title="Sweet Rates"
             description="We offer the most competitive rates in Nigeria. Compare our prices, you won't find better value anywhere else."
+            delay={0.4}
           />
         </div>
       </div>

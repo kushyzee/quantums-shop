@@ -2,7 +2,7 @@
 
 import { orbitron } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, ViewportOptions } from "framer-motion";
 
 interface SectionHeaderProps {
   title: string;
@@ -12,6 +12,8 @@ interface SectionHeaderProps {
   id?: string;
   children: React.ReactNode;
 }
+
+const viewport: ViewportOptions = { amount: "all", once: true };
 
 export default function SectionHeader({
   title,
@@ -25,10 +27,10 @@ export default function SectionHeader({
     <section className={cn("py-20 lg:py-36 md:px-6 px-5", className)} id={id}>
       <div className="text-center">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-          viewport={{ margin: "-150px 0px" }}
+          initial={{ y: 20 }}
+          whileInView={{ y: 0 }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
+          viewport={viewport}
           className={cn(
             "text-3xl md:text-4xl lg:text-5xl font-bold",
             orbitron.className
@@ -39,8 +41,8 @@ export default function SectionHeader({
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          viewport={{ margin: "-150px 0px" }}
+          transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+          viewport={viewport}
           className="text-muted-foreground mt-1.5 lg:text-lg"
         >
           {subtitle}

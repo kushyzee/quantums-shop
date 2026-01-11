@@ -4,15 +4,16 @@ import { motion } from "motion/react";
 interface StatProps {
   title: string;
   value: string;
+  delay: number;
 }
 
-export default function Stat({ title, value }: StatProps) {
+export default function Stat({ title, value, delay }: StatProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      viewport={{ margin: "-150px 0px", once: true }}
+      transition={{ duration: 0.4, delay }}
+      viewport={{ amount: 0.5, once: true }}
       className="flex flex-col gap-0.5 items-center"
     >
       <p

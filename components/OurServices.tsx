@@ -6,7 +6,7 @@ import paypal from "@/assets/paypal.jpg";
 import usdt from "@/assets/usdt.jpg";
 import codm from "@/assets/codm.jpg";
 import psn from "@/assets/psn.jpg";
-import { motion } from "motion/react";
+import { motion, Transition } from "motion/react";
 
 const serviceItems = {
   initial: {
@@ -18,6 +18,15 @@ const serviceItems = {
     y: 0,
   },
 };
+
+const transition: Transition = {
+  duration: 0.5,
+  type: "spring",
+  stiffness: 400,
+  damping: 20,
+};
+
+const viewport = { amount: 0.3, once: true };
 
 export default function OurServices() {
   return (
@@ -33,8 +42,8 @@ export default function OurServices() {
           variants={serviceItems}
           initial="initial"
           whileInView="animate"
-          viewport={{ amount: 0.3 }}
-          transition={{ duration: 0.5, type: "spring", bounce: 0.35 }}
+          viewport={viewport}
+          transition={transition}
         >
           <ServiceCard
             image={paypal}
@@ -49,13 +58,8 @@ export default function OurServices() {
           variants={serviceItems}
           initial="initial"
           whileInView="animate"
-          viewport={{ amount: 0.3 }}
-          transition={{
-            duration: 0.5,
-            delay: 0.2,
-            type: "spring",
-            bounce: 0.35,
-          }}
+          viewport={viewport}
+          transition={{ ...transition, delay: 0.2 }}
         >
           <ServiceCard
             image={usdt}
@@ -74,13 +78,8 @@ export default function OurServices() {
           variants={serviceItems}
           initial="initial"
           whileInView="animate"
-          viewport={{ amount: 0.3 }}
-          transition={{
-            duration: 0.5,
-            delay: 0.4,
-            type: "spring",
-            bounce: 0.35,
-          }}
+          viewport={viewport}
+          transition={{ ...transition, delay: 0.4 }}
         >
           <ServiceCard
             image={codm}
@@ -99,13 +98,8 @@ export default function OurServices() {
           variants={serviceItems}
           initial="initial"
           whileInView="animate"
-          viewport={{ amount: 0.3 }}
-          transition={{
-            duration: 0.5,
-            delay: 0.6,
-            type: "spring",
-            bounce: 0.35,
-          }}
+          viewport={viewport}
+          transition={{ ...transition, delay: 0.6 }}
         >
           <ServiceCard
             image={psn}

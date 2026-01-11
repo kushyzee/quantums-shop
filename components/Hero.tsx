@@ -6,7 +6,7 @@ import { ArrowRight, Zap } from "lucide-react";
 import { Button } from "./ui/button";
 import Stat from "./Stat";
 import { getWhatsappUrl } from "@/lib/utils";
-import { motion, stagger } from "motion/react";
+import { motion, stagger, Variants } from "motion/react";
 
 const heroParent = {
   initial: {
@@ -15,7 +15,7 @@ const heroParent = {
   animate: {
     opacity: 1,
     transition: {
-      delayChildren: stagger(0.2, { startDelay: 0.3 }),
+      delayChildren: stagger(0.2, { startDelay: 0.15 }),
       duration: 0.4,
     },
   },
@@ -32,15 +32,18 @@ const heroItem = {
   },
 };
 
-const heroButtonParent = {
+const heroButtonParent: Variants = {
   initial: {
     opacity: 0,
   },
   animate: {
     opacity: 1,
     transition: {
-      delayChildren: stagger(0.2, { startDelay: 0.1 }),
+      delayChildren: stagger(0.2, { startDelay: 0.6 }),
       duration: 0.4,
+      type: "spring",
+      stiffness: 200,
+      damping: 10,
     },
   },
 };
@@ -92,6 +95,8 @@ export default function Hero() {
           </motion.p>
           <motion.div
             variants={heroButtonParent}
+            initial="initial"
+            animate="animate"
             className="flex flex-col gap-3 mt-10 sm:flex-row sm:gap-5 sm:justify-center"
           >
             <motion.a variants={heroButton} target="_blank" href={whatsappUrl}>
@@ -112,30 +117,11 @@ export default function Hero() {
             transition={{ delay: 1.5 }}
             className="mt-16 flex justify-between items-center max-w-xl mx-auto"
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ margin: "-150px 0px" }}
-            >
-              <Stat title="5K+" value="Transactions" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-              viewport={{ margin: "-150px 0px" }}
-            >
-              <Stat title="24/7" value="Support" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              viewport={{ margin: "-150px 0px" }}
-            >
-              <Stat title="2Min" value="Avg. Time" />
-            </motion.div>
+            <Stat title="5K+" value="Transactions" delay={0} />
+
+            <Stat title="24/7" value="Support" delay={0.2} />
+
+            <Stat title="2Min" value="Avg. Time" delay={0.4} />
           </motion.div>
         </div>
       </div>
