@@ -22,12 +22,12 @@ export default function Hero() {
         </div>
         <div className="mt-7 text-center">
           <h1
-            className={`text-4xl md:text-5xl font-bold ${orbitron.className}`}
+            className={`text-4xl md:text-5xl lg:text-6xl font-bold ${orbitron.className}`}
           >
             Level Up Your <span className="text-primary">Game</span>. Trade Your{" "}
             <span className="text-primary">Asset</span>
           </h1>
-          <p className="text-muted-foreground mt-5 md:text-lg">
+          <p className="text-muted-foreground mt-5 md:text-lg lg:text-xl">
             The fastest way to Top-up PUBG & CODM, trade digital assets, and
             receive online payments in Nigeria. Instant funding at sweet rates
           </p>

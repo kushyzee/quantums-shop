@@ -15,20 +15,20 @@ export default function Cta() {
       <CardHeader>
         <CardTitle
           className={cn(
-            "text-center text-white text-2xl font-bold",
+            "text-center text-white text-2xl lg:text-3xl font-bold",
             orbitron.className
           )}
         >
           Ready to Get Started?
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="max-w-[640px] mx-auto">
         <p className="text-center text-muted-foreground text-base">
           Join hundreds of satisfied customers who trust Quantum&apos;s Shop for
           their digital trading needs.
         </p>
       </CardContent>
-      <CardFooter className="border-none pb-5">
+      <CardFooter className="border-none pb-5 md:mx-auto">
         <WhatsappButton isFull={true} />
       </CardFooter>
     </Card>

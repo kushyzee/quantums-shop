@@ -14,7 +14,7 @@ export default function OurServices() {
       subtitle="From gaming top-ups to crypto trades, we've got everything you need at unbeatable rates"
       className="bg-surface-base"
     >
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-4 max-w-[1200px] mx-auto">
         <ServiceCard
           image={paypal}
           title="Payment Methods"

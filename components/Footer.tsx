@@ -23,8 +23,8 @@ const quickLinks = [
 export default function Footer() {
   return (
     <footer className="bg-surface-header pt-28 px-5 pb-5">
-      <div className="flex flex-col mb-16 gap-16">
-        <div>
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 md:justify-between mb-16 gap-16 lg:gap-8">
+        <div className="md:col-span-2">
           <div className="flex gap-2 items-center mb-3">
             <Image
               className="w-10 h-auto"
@@ -36,7 +36,7 @@ export default function Footer() {
               Quantums Shop
             </p>
           </div>
-          <p className="text-muted-foreground mb-7">
+          <p className="text-muted-foreground mb-7 md:max-w-sm lg:max-w-md">
             Your trusted partner for gaming top-ups, gift cards, and crypto
             trading in Nigeria.
           </p>

@@ -11,7 +11,7 @@ export default function HowItWorks() {
       subtitle="Trading with Quantum's Shop is simple, fast, and secure. Get started in 3 easy steps."
       id="how-it-works"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mt-14">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 mt-14 max-w-[1200px] mx-auto">
         <HowItWorksCard
           Icon={MessageCircle}
           title="Contact Us"

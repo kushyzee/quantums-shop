@@ -41,11 +41,11 @@ export default function ServiceCard({
         </div>
         <div className="px-4 pt-4">
           <CardTitle
-            className={cn(orbitron.className, "text-xl text-white font-bold")}
+            className={cn(orbitron.className, "text-lg text-white font-bold")}
           >
             {title}
           </CardTitle>
-          <CardDescription>{description}</CardDescription>
+          <CardDescription className="md:mt-1.5">{description}</CardDescription>
         </div>
       </CardHeader>
       <CardContent>
