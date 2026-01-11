@@ -116,7 +116,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4 }}
-              viewport={{ margin: "-150px 0px", once: true }}
+              viewport={{ margin: "-150px 0px" }}
             >
               <Stat title="5K+" value="Transactions" />
             </motion.div>
@@ -124,7 +124,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.2 }}
-              viewport={{ margin: "-150px 0px", once: true }}
+              viewport={{ margin: "-150px 0px" }}
             >
               <Stat title="24/7" value="Support" />
             </motion.div>
@@ -132,7 +132,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.4 }}
-              viewport={{ margin: "-150px 0px", once: true }}
+              viewport={{ margin: "-150px 0px" }}
             >
               <Stat title="2Min" value="Avg. Time" />
             </motion.div>
