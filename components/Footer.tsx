@@ -1,4 +1,4 @@
-import { orbitron } from "@/app/layout";
+import { orbitron } from "@/lib/fonts";
 import logo from "@/assets/logo.svg";
 import Image from "next/image";
 import WhatsappButton from "./WhatsappButton";

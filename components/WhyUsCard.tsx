@@ -1,4 +1,4 @@
-import { orbitron } from "@/app/layout";
+import { orbitron } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { LucideIcon } from "lucide-react";
 interface WhyUsCardProps {

@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { ArrowUpRight, CheckCheck } from "lucide-react";
-import { orbitron } from "@/app/layout";
+import { orbitron } from "@/lib/fonts";
 import { cn, getWhatsappUrl } from "@/lib/utils";
 import { Button } from "./ui/button";
 

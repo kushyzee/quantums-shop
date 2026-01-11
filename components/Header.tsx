@@ -2,7 +2,7 @@ import Image from "next/image";
 import logo from "@/assets/logo.svg";
 import Link from "next/link";
 import WhatsappButton from "./WhatsappButton";
-import { orbitron } from "@/app/layout";
+import { orbitron } from "@/lib/fonts";
 
 export default function Header() {
   return (

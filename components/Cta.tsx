@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from "./ui/card";
 import { cn } from "@/lib/utils";
-import { orbitron } from "@/app/layout";
+import { orbitron } from "@/lib/fonts";
 import WhatsappButton from "./WhatsappButton";
 
 export default function Cta() {

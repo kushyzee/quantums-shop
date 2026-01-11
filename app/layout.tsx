@@ -1,15 +1,10 @@
 import type { Metadata } from "next";
-import { Orbitron, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-export const inter = Inter({ subsets: ["latin"] });
-
-export const orbitron = Orbitron({
-  subsets: ["latin"],
-});
-
+const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Quantum's Shop",
   description:
