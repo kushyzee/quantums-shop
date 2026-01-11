@@ -28,7 +28,7 @@ export default function Cta() {
           their digital trading needs.
         </p>
       </CardContent>
-      <CardFooter className="border-none pb-5 md:mx-auto">
+      <CardFooter className="border-none pb-5 md:pb-8 lg:pb-12 md:mx-auto">
         <WhatsappButton isFull={true} />
       </CardFooter>
     </Card>
