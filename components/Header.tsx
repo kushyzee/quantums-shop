@@ -17,7 +17,7 @@ export default function Header() {
           <p
             className={`text-white sr-only sm:not-sr-only font-bold ${orbitron.className}`}
           >
-            Quantums Shop
+            quantum's Shop
           </p>
         </Link>
         <WhatsappButton text="WhatsApp" />

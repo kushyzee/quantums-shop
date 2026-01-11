@@ -33,7 +33,7 @@ export default function Footer() {
               width={40}
             />
             <p className={`font-bold ${orbitron.className} text-lg`}>
-              Quantums Shop
+              quantum's Shop
             </p>
           </div>
           <p className="text-muted-foreground mb-7 md:max-w-sm lg:max-w-md">
@@ -82,7 +82,7 @@ export default function Footer() {
 
       <div className="pt-10 border-t border-primary/20">
         <p className="text-center text-muted-foreground text-sm">
-          &copy; {new Date().getFullYear()} Quantums Shop. All rights reserved.{" "}
+          &copy; {new Date().getFullYear()} quantum's Shop. All rights reserved.{" "}
         </p>
       </div>
     </footer>

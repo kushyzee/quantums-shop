@@ -1,3 +1,5 @@
+"use client";
+
 import { CircleDollarSign, MessageCircle, Rocket } from "lucide-react";
 import HowItWorksCard from "./HowItWorksCard";
 import SectionHeader from "./SectionHeader";
@@ -17,16 +19,19 @@ export default function HowItWorks() {
             Icon={MessageCircle}
             title="Contact Us"
             description='Click any "Trade Now" button to open WhatsApp and tell us what you need; Funds pickup, gaming top-up, crypto, or gift cards.'
+            delay={0}
           />
           <HowItWorksCard
             Icon={CircleDollarSign}
             title="Get Your Rate"
             description="We'll respond instantly with our best rate. Compare and confirm; our prices are always competitive."
+            delay={0.1}
           />
           <HowItWorksCard
             Icon={Rocket}
             title="Instant Delivery"
             description="Complete the transaction and receive your funds or top-up instantly. Simple, fast, trusted."
+            delay={0.2}
           />
         </div>
         <Cta />

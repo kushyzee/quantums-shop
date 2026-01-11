@@ -1,8 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import AccordionBody from "./AccordionBody";
 import SectionHeader from "./SectionHeader";
 import { Accordion } from "./ui/accordion";
 import faq from "@/assets/faq.svg";
+import { motion, Transition } from "motion/react";
+
+const viewport = { amount: 0.5, once: true };
+
+const transition: Transition = {
+  duration: 0.4,
+  type: "spring",
+  stiffness: 400,
+  damping: 20,
+  delay: 0.1,
+};
 
 export default function Faq() {
   return (
@@ -13,7 +26,16 @@ export default function Faq() {
       className="bg-muted"
     >
       <div className="max-w-[1200px] mx-auto md:flex items-center justify-between gap-8 mt-10 lg:mt-16">
-        <div className="md:w-1/2">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={viewport}
+          transition={transition}
+          className="md:w-1/2"
+        >
           <Accordion defaultValue={["item-1"]}>
             <AccordionBody
               question="How does Quantum’s Shop work?"
@@ -41,10 +63,19 @@ export default function Faq() {
               value="item-5"
             />
           </Accordion>
-        </div>
-        <div className="mt-12 max-w-xl mx-auto md:mt-0 grow md:max-w-[516px]">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, x: 10 }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+          }}
+          viewport={viewport}
+          transition={{ ...transition, delay: 0.2 }}
+          className="mt-12 max-w-xl mx-auto md:mt-0 grow md:max-w-[516px]"
+        >
           <Image className="w-full" src={faq} alt="faq" />
-        </div>
+        </motion.div>
       </div>
     </SectionHeader>
   );
