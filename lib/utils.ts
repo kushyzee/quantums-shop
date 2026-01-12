@@ -12,5 +12,5 @@ export function getWhatsappUrl(message: string) {
     (message || defaultMessage) + ". - [Sent via Quantum's Shop Web Portal]"
   );
 
-  return `https://wa.me/2348108882679?text=${encodedMessage}`;
+  return `https://wa.me/2349018285949?text=${encodedMessage}`;
 }
