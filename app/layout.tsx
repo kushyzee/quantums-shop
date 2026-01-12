@@ -6,6 +6,8 @@ import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
+  metadataBase: new URL("https://quantumsshop.com"),
+  alternates: { canonical: "https://quantumsshop.com" },
   title: "Quantum's Shop",
   description:
     "Fast gaming top-ups, gift cards, crypto trading, and PayPal fund receiving. Buy PUBG & CODM UC, trade digital assets, and receive online payments via WhatsApp.",
@@ -17,12 +19,21 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en",
     siteName: "Quantum's Shop",
+    images: [
+      {
+        url: "/opengraph-image.jpeg",
+        width: 1200,
+        height: 606,
+        alt: "Quantum's Shop preview",
+      },
+    ],
   },
   twitter: {
     title: "Quantum's Shop",
     description:
       "Gaming top-ups, crypto trades, and PayPal fund receiving via WhatsApp.",
     card: "summary_large_image",
+    images: ["/twitter-image.jpeg"],
   },
 };
 
