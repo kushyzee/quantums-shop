@@ -19,21 +19,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en",
     siteName: "Quantum's Shop",
-    images: [
-      {
-        url: "/opengraph-image.jpeg",
-        width: 1200,
-        height: 630,
-        alt: "Quantum's Shop preview",
-      },
-    ],
+    url: "https://quantumsshop.com",
   },
   twitter: {
     title: "Quantum's Shop",
     description:
       "Gaming top-ups, crypto trades, and PayPal fund receiving via WhatsApp.",
     card: "summary_large_image",
-    images: ["/twitter-image.jpeg"],
   },
 };
 
