@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en",
     siteName: "Quantum's Shop",
-    url: "https://quantumsshop.com.ng/",
+    url: "https://quantumsshop.com.ng",
     images: [
       {
         url: "/opengraph-image.jpeg",
