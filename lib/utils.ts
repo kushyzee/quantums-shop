@@ -8,9 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 export function getWhatsappUrl(message: string) {
   const defaultMessage =
     "Hello quantum, I saw your website and I would like to inquire about your digital asset services and current rates";
-  const encodedMessage = encodeURIComponent(
-    (message || defaultMessage) + ". - [Sent via Quantum's Shop Web Portal]"
-  );
+  const encodedMessage = encodeURIComponent(message || defaultMessage);
 
   return `https://wa.me/2349018285949?text=${encodedMessage}`;
 }
