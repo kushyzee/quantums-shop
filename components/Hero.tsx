@@ -4,7 +4,7 @@ import { orbitron } from "@/lib/fonts";
 import { Badge } from "./ui/badge";
 import { ArrowRight, Zap } from "lucide-react";
 import { Button } from "./ui/button";
-import Stat from "./Stat";
+import Stat from "../shared/components/Stat";
 import { getWhatsappUrl } from "@/lib/utils";
 import { motion, stagger, Variants } from "motion/react";
 

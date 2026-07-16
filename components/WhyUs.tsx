@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../shared/components/SectionHeader";
 import whyUs from "@/assets/why-us.png";
 import WhyUsCard from "./WhyUsCard";
 import { ShieldCheck, Zap, TrendingUp } from "lucide-react";

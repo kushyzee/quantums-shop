@@ -7,7 +7,7 @@ import {
 } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { orbitron } from "@/lib/fonts";
-import WhatsappButton from "./WhatsappButton";
+import WhatsappButton from "../shared/components/WhatsappButton";
 import { motion } from "motion/react";
 
 export default function Cta() {
@@ -23,7 +23,7 @@ export default function Cta() {
           <CardTitle
             className={cn(
               "text-center text-white text-2xl lg:text-3xl font-bold",
-              orbitron.className
+              orbitron.className,
             )}
           >
             Ready to Get Started?

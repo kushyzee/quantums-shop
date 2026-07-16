@@ -2,7 +2,7 @@
 
 import { CircleDollarSign, MessageCircle, Rocket } from "lucide-react";
 import HowItWorksCard from "./HowItWorksCard";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../shared/components/SectionHeader";
 import Cta from "./Cta";
 
 export default function HowItWorks() {

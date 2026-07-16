@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import AccordionBody from "./AccordionBody";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../shared/components/SectionHeader";
 import { Accordion } from "./ui/accordion";
 import faq from "@/assets/faq.svg";
 import { motion, Transition } from "motion/react";

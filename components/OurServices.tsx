@@ -1,6 +1,6 @@
 "use client";
 
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../shared/components/SectionHeader";
 import ServiceCard from "./ServiceCard";
 import paypal from "@/assets/paypal.jpg";
 import usdt from "@/assets/usdt.jpg";
