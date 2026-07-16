@@ -82,8 +82,8 @@ export default function Footer() {
 
       <div className="pt-10 border-t border-primary/20">
         <p className="text-center text-muted-foreground text-sm">
-          &copy; {new Date().getFullYear()} quantum&apos;s Shop. All rights
-          reserved.{" "}
+          &copy; {new Date().getFullYear()} - Quantum&apos;s Shop. All rights
+          reserved.
         </p>
       </div>
     </footer>

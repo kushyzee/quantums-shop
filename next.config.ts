@@ -1,10 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: "/home/kushyzee/Desktop/vscode/nextjs/quantums-shop",
-  },
-  allowedDevOrigins: ["local-origin.dev", "*.local-origin.dev"],
+  allowedDevOrigins: ["10.247.143.190", "192.168.0.42"],
 };
 
 export default nextConfig;
