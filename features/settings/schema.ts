@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export const MAX_ACTIVE_BANK_ACCOUNTS = 2;
+
 export const createBankAccountSchema = z.object({
   bankName: z
     .string()

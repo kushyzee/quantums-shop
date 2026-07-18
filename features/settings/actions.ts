@@ -9,8 +9,9 @@ import {
   toggleBankAccountActiveSchema,
   setPrimaryBankAccountSchema,
   deleteBankAccountSchema,
+  MAX_ACTIVE_BANK_ACCOUNTS,
 } from "./schema";
-import { getActiveBankAccountCount } from "./queries";
+import { BankAccountRow, getActiveBankAccountCount } from "./queries";
 
 type ActionResult<TData = undefined> =
   | { success: true; data: TData }
@@ -20,11 +21,9 @@ type ActionResult<TData = undefined> =
       formError?: string;
     };
 
-const MAX_ACTIVE_BANK_ACCOUNTS = 2;
-
 export async function createBankAccount(
   input: unknown,
-): Promise<ActionResult<{ id: string }>> {
+): Promise<ActionResult<BankAccountRow>> {
   const parsed = createBankAccountSchema.safeParse(input);
 
   if (!parsed.success) {
@@ -57,7 +56,9 @@ export async function createBankAccount(
       is_primary: activeCount === 0, // first account is auto-primary
       active: true,
     })
-    .select("id")
+    .select(
+      "id, bank_name, account_number, account_name, is_primary, active, created_at",
+    )
     .single();
 
   if (error) {
@@ -69,7 +70,18 @@ export async function createBankAccount(
   }
 
   revalidatePath("/admin/settings");
-  return { success: true, data: { id: data.id } };
+  return {
+    success: true,
+    data: {
+      id: data.id,
+      bankName: data.bank_name,
+      accountNumber: data.account_number,
+      accountName: data.account_name,
+      isPrimary: data.is_primary,
+      active: data.active,
+      createdAt: data.created_at,
+    },
+  };
 }
 
 export async function updateBankAccount(input: unknown): Promise<ActionResult> {
