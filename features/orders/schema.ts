@@ -1,0 +1,69 @@
+import { z } from "zod";
+
+export const MAX_PROOF_IMAGE_SIZE_MB = 5;
+export const MAX_PROOF_IMAGE_SIZE_BYTES = MAX_PROOF_IMAGE_SIZE_MB * 1024 * 1024;
+export const ACCEPTED_PROOF_IMAGE_TYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+] as const;
+
+const whatsappNumberSchema = z
+  .string()
+  .trim()
+  .regex(
+    /^\+[1-9]\d{7,14}$/,
+    "Enter your number with country code, e.g. +234 801 234 5678",
+  );
+
+const senderAccountNameSchema = z
+  .string()
+  .trim()
+  .min(2, "Enter the name on the sending account")
+  .max(100, "That name looks too long, please shorten it");
+
+const baseOrderFields = {
+  catalogVariantId: z.uuid("Select a valid item and variant"),
+  senderAccountName: senderAccountNameSchema,
+  customerWhatsappNumber: whatsappNumberSchema,
+};
+
+export const giftCardOrderSchema = z.object({
+  serviceType: z.literal("giftcard"),
+  ...baseOrderFields,
+});
+
+export const gamingOrderSchema = z.object({
+  serviceType: z.literal("gaming"),
+  ...baseOrderFields,
+  gameAccountEmail: z.email("Enter a valid account email"),
+  gameAccountPassword: z.string().min(1, "Enter the account password"),
+  accountAccessConsent: z.boolean().refine((v) => v === true, {
+    message: "Please confirm you understand before continuing",
+  }),
+});
+
+export const createOrderSchema = z.discriminatedUnion("serviceType", [
+  gamingOrderSchema,
+  giftCardOrderSchema,
+]);
+
+export type CreateOrderInput = z.infer<typeof createOrderSchema>;
+export type GamingOrderInput = z.infer<typeof gamingOrderSchema>;
+export type GiftCardOrderInput = z.infer<typeof giftCardOrderSchema>;
+
+export const proofImageSchema = z
+  .instanceof(File)
+  .refine(
+    (file) =>
+      (ACCEPTED_PROOF_IMAGE_TYPES as readonly string[]).includes(file.type),
+    { message: "Only JPG, PNG, or WEBP images are accepted" },
+  )
+  .refine((file) => file.size <= MAX_PROOF_IMAGE_SIZE_BYTES, {
+    message: `Image must be ${MAX_PROOF_IMAGE_SIZE_MB}MB or smaller`,
+  })
+  .optional();
+
+export function deriveOrderCode(orderId: string): string {
+  return `QS-${orderId.replace(/-/g, "").slice(0, 8).toUpperCase()}`;
+}

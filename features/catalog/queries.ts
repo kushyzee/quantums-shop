@@ -26,6 +26,18 @@ export type CatalogItemWithVariants = {
   variants: CatalogVariantRow[];
 };
 
+export type PublicCatalogVariant = {
+  id: string;
+  label: string;
+  price: number;
+};
+
+export type PublicCatalogItem = {
+  id: string;
+  name: string;
+  variants: PublicCatalogVariant[];
+};
+
 export async function listCatalogAdmin(): Promise<CatalogItemListRow[]> {
   const supabase = await createClient();
 
@@ -111,4 +123,40 @@ export async function getItemWithVariants(
       createdAt: v.created_at,
     })),
   };
+}
+
+export async function listCatalogPublic(
+  serviceType: ServiceType,
+): Promise<PublicCatalogItem[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("catalog_items")
+    .select(
+      `
+      id,
+      name,
+      catalog_variants!inner ( id, label, price, active )
+    `,
+    )
+    .eq("service_type", serviceType)
+    .eq("active", true)
+    .eq("catalog_variants.active", true)
+    .order("name", { ascending: true })
+    .order("price", { ascending: true, referencedTable: "catalog_variants" });
+
+  if (error) {
+    console.error("listCatalogPublic error:", error.code, error.message);
+    throw new Error("Failed to load catalog.");
+  }
+
+  return (data ?? []).map((row) => ({
+    id: row.id,
+    name: row.name,
+    variants: (row.catalog_variants ?? []).map((v) => ({
+      id: v.id,
+      label: v.label,
+      price: v.price,
+    })),
+  }));
 }
