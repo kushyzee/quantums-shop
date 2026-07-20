@@ -79,7 +79,7 @@ export function ItemList({
             <TableRow>
               <TableHead>Name</TableHead>
               <TableHead>Type</TableHead>
-              <TableHead>Variants</TableHead>
+              <TableHead>Options</TableHead>
               <TableHead>Active</TableHead>
             </TableRow>
           </TableHeader>

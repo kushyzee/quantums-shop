@@ -85,29 +85,31 @@ export function VariantCreateForm({
         </form.Field>
 
         <form.Field name="price">
-          {(field) => (
-            <Field
-              data-invalid={field.state.meta.errors.length > 0 || undefined}
-            >
-              <FieldLabel htmlFor={field.name}>Price (₦)</FieldLabel>
-              <Input
-                id={field.name}
-                name={field.name}
-                type="number"
-                step="0.01"
-                min="0"
-                value={field.state.value === 0 ? "" : field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) =>
-                  field.handleChange(
-                    e.target.value === "" ? 0 : Number(e.target.value),
-                  )
-                }
-                aria-invalid={field.state.meta.errors.length > 0}
-              />
-              <FieldError errors={field.state.meta.errors} />
-            </Field>
-          )}
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && field.state.meta.errors.length > 0;
+            return (
+              <Field data-invalid={isInvalid || undefined}>
+                <FieldLabel htmlFor={field.name}>Price (₦)</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={field.state.value === 0 ? "" : field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) =>
+                    field.handleChange(
+                      e.target.value === "" ? 0 : Number(e.target.value),
+                    )
+                  }
+                  aria-invalid={isInvalid}
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
         </form.Field>
       </FieldGroup>
 

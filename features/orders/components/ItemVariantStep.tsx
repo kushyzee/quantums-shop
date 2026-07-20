@@ -42,13 +42,7 @@ export function ItemVariantStep({
   return (
     <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-6">
       <form.Field name="catalogVariantId">
-        {(field: {
-          state: {
-            value: string;
-            meta: { errors: Array<{ message?: string } | string | undefined> };
-          };
-          handleChange: (arg0: string) => void;
-        }) => {
+        {(field) => {
           const item = findItemForVariant(catalogItems, field.state.value);
 
           return (
@@ -86,7 +80,11 @@ export function ItemVariantStep({
               </Field>
 
               <Field
-                data-invalid={field.state.meta.errors!.length > 0 || undefined}
+                data-invalid={
+                  (field.state.meta.isTouched &&
+                    field.state.meta.errors.length > 0) ||
+                  undefined
+                }
               >
                 <FieldLabel htmlFor="catalog-variant">Option</FieldLabel>
                 <Select
@@ -112,7 +110,7 @@ export function ItemVariantStep({
                   <SelectContent>
                     {item?.variants.map((variant) => (
                       <SelectItem key={variant.id} value={variant.id}>
-                        {variant.label} — {formatNaira(variant.price)}
+                        {variant.label}: {formatNaira(variant.price)}
                       </SelectItem>
                     ))}
                   </SelectContent>

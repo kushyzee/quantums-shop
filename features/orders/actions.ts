@@ -51,7 +51,7 @@ export async function createOrder(
       return {
         success: false,
         formError:
-          "That payment proof image couldn't be used — please try a different file.",
+          "That payment proof image couldn't be used, please try a different file.",
       };
     }
   }

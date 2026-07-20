@@ -69,60 +69,72 @@ export function ItemCreateForm({
       <h3 className="text-sm font-medium">Add item</h3>
 
       {formError && (
-        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+        <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-center text-destructive">
           {formError}
         </div>
       )}
 
       <FieldGroup>
         <form.Field name="name">
-          {(field) => (
-            <Field
-              data-invalid={field.state.meta.errors.length > 0 || undefined}
-            >
-              <FieldLabel htmlFor={field.name}>Name</FieldLabel>
-              <Input
-                id={field.name}
-                name={field.name}
-                placeholder="e.g. PUBG Mobile"
-                value={field.state.value}
-                onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
-                aria-invalid={field.state.meta.errors.length > 0}
-              />
-              <FieldError errors={field.state.meta.errors} />
-            </Field>
-          )}
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && field.state.meta.errors.length > 0;
+            return (
+              <Field data-invalid={isInvalid || undefined}>
+                <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+                <Input
+                  id={field.name}
+                  name={field.name}
+                  placeholder="e.g. PUBG Mobile"
+                  value={field.state.value}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={field.state.meta.errors.length > 0}
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            );
+          }}
         </form.Field>
 
         <form.Field name="serviceType">
-          {(field) => (
-            <Field
-              data-invalid={field.state.meta.errors.length > 0 || undefined}
-            >
-              <FieldLabel htmlFor={field.name}>Service type</FieldLabel>
-              <Select
-                value={field.state.value}
-                onValueChange={(value) =>
-                  field.handleChange(value as ServiceType)
-                }
-              >
-                <SelectTrigger id={field.name} className="w-full">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {(Object.keys(SERVICE_TYPE_LABELS) as ServiceType[]).map(
-                    (type) => (
-                      <SelectItem key={type} value={type}>
-                        {SERVICE_TYPE_LABELS[type]}
-                      </SelectItem>
-                    ),
-                  )}
-                </SelectContent>
-              </Select>
-              <FieldError errors={field.state.meta.errors} />
-            </Field>
-          )}
+          {(field) => {
+            const isInvalid =
+              field.state.meta.isTouched && field.state.meta.errors.length > 0;
+            return (
+              <Field data-invalid={isInvalid || undefined}>
+                <FieldLabel htmlFor={field.name}>Service type</FieldLabel>
+                <Select
+                  items={(
+                    Object.keys(SERVICE_TYPE_LABELS) as ServiceType[]
+                  ).map((type) => {
+                    return {
+                      value: type,
+                      label: SERVICE_TYPE_LABELS[type],
+                    };
+                  })}
+                  value={field.state.value}
+                  onValueChange={(value) =>
+                    field.handleChange(value as ServiceType)
+                  }
+                >
+                  <SelectTrigger id={field.name} className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {(Object.keys(SERVICE_TYPE_LABELS) as ServiceType[]).map(
+                      (type) => (
+                        <SelectItem key={type} value={type}>
+                          {SERVICE_TYPE_LABELS[type]}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectContent>
+                </Select>
+                <FieldError errors={field.state.meta.errors} />
+              </Field>
+            );
+          }}
         </form.Field>
       </FieldGroup>
 

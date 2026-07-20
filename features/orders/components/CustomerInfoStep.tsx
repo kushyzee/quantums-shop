@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useSelector } from "@tanstack/react-form";
+import { Copy, Check } from "lucide-react";
 import {
   Field,
   FieldLabel,
@@ -34,6 +35,14 @@ type CustomerInfoStepProps = {
   onBack: () => void;
 };
 
+function getFileSizeLabel(size: number): string {
+  const fileSizeInMB = (size / 1024 / 1024).toFixed(2);
+  if (Number(fileSizeInMB) < 1) {
+    return (size / 1024).toFixed(2) + "KB";
+  }
+  return fileSizeInMB + "MB";
+}
+
 export function CustomerInfoStep({
   form,
   serviceType,
@@ -47,52 +56,60 @@ export function CustomerInfoStep({
       <div className="flex flex-col gap-4 rounded-lg border border-border bg-card p-6">
         <FieldGroup>
           <form.Field name="senderAccountName">
-            {(field: {
-              state: { value: string; meta: { errors: FieldErrorItem[] } };
-              handleChange: (value: string) => void;
-            }) => (
-              <Field
-                data-invalid={field.state.meta.errors.length > 0 || undefined}
-              >
-                <FieldLabel htmlFor="sender-account-name">
-                  Name on the sending account
-                </FieldLabel>
-                <Input
-                  id="sender-account-name"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="e.g. Chinedu Okafor"
-                />
-                <FieldError errors={normalizeErrors(field.state.meta.errors)} />
-              </Field>
-            )}
+            {(field) => {
+              const isInvalid =
+                field.state.meta.isTouched &&
+                field.state.meta.errors.length > 0;
+              return (
+                <Field data-invalid={isInvalid || undefined}>
+                  <FieldLabel htmlFor="sender-account-name">
+                    Name on the sending account
+                  </FieldLabel>
+                  <Input
+                    id="sender-account-name"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="e.g. Chinedu Okafor"
+                  />
+                  {isInvalid && (
+                    <FieldError
+                      errors={normalizeErrors(field.state.meta.errors)}
+                    />
+                  )}
+                </Field>
+              );
+            }}
           </form.Field>
 
           <form.Field name="customerWhatsappNumber">
-            {(field: {
-              state: { value: string; meta: { errors: FieldErrorItem[] } };
-              handleChange: (value: string) => void;
-            }) => (
-              <Field
-                data-invalid={field.state.meta.errors.length > 0 || undefined}
-              >
-                <FieldLabel htmlFor="customer-whatsapp">
-                  Your WhatsApp number
-                </FieldLabel>
-                <Input
-                  id="customer-whatsapp"
-                  type="tel"
-                  value={field.state.value}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  placeholder="+234 801 234 5678"
-                />
-                <p className="text-sm text-muted-foreground">
-                  Include your country code — we&rsquo;ll use this to reach you
-                  about your order.
-                </p>
-                <FieldError errors={normalizeErrors(field.state.meta.errors)} />
-              </Field>
-            )}
+            {(field) => {
+              const isInvalid =
+                field.state.meta.isTouched &&
+                field.state.meta.errors.length > 0;
+              return (
+                <Field data-invalid={isInvalid || undefined}>
+                  <FieldLabel htmlFor="customer-whatsapp">
+                    Your WhatsApp number
+                  </FieldLabel>
+                  <Input
+                    id="customer-whatsapp"
+                    type="tel"
+                    value={field.state.value}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    placeholder="+234 801 234 5678"
+                  />
+                  <p className="text-sm text-muted-foreground">
+                    Include your country code, we&rsquo;ll use this to reach you
+                    about your order.
+                  </p>
+                  {isInvalid && (
+                    <FieldError
+                      errors={normalizeErrors(field.state.meta.errors)}
+                    />
+                  )}
+                </Field>
+              );
+            }}
           </form.Field>
         </FieldGroup>
 
@@ -136,7 +153,7 @@ function BankAccountsCard({
   if (bankAccounts.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
-        Bank details aren&rsquo;t available right now — please reach out on
+        Bank details aren&rsquo;t available right now, please reach out on
         WhatsApp to complete your payment.
       </div>
     );
@@ -153,7 +170,10 @@ function BankAccountsCard({
           className="rounded-md bg-secondary px-4 py-3 text-sm"
         >
           <p className="font-medium">{account.bankName}</p>
-          <p className="text-muted-foreground">{account.accountNumber}</p>
+          <div className="flex items-center justify-between gap-2">
+            <p className="text-muted-foreground">{account.accountNumber}</p>
+            <CopyAccountNumberButton accountNumber={account.accountNumber} />
+          </div>
           <p className="text-muted-foreground">{account.accountName}</p>
         </div>
       ))}
@@ -161,14 +181,40 @@ function BankAccountsCard({
   );
 }
 
+function CopyAccountNumberButton({ accountNumber }: { accountNumber: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(accountNumber);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {}
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={handleCopy}
+      className="inline-flex shrink-0 items-center gap-1 text-xs text-primary hover:underline"
+      aria-label={`Copy account number ${accountNumber}`}
+    >
+      {copied ? (
+        <>
+          <Check className="h-3.5 w-3.5" /> Copied
+        </>
+      ) : (
+        <>
+          <Copy className="h-3.5 w-3.5" /> Copy
+        </>
+      )}
+    </button>
+  );
+}
+
 function ProofUploadField({ form }: { form: OrderForm }) {
   const [isCompressing, setIsCompressing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
-  // paymentProofFile is optional and doesn't go through form.Field/FieldError
-  // like the other fields — compression is async, so it's set imperatively
-  // via form.setFieldValue once compressProofImage resolves, with local
-  // state here just for the isCompressing/error UI feedback.
   const proofFile = useSelector(
     form.store,
     (s: { values: { paymentProofFile: File | null } }) =>
@@ -177,7 +223,7 @@ function ProofUploadField({ form }: { form: OrderForm }) {
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
-    e.target.value = ""; // allow re-selecting the same file later
+    e.target.value = "";
     if (!file) return;
 
     if (
@@ -196,7 +242,7 @@ function ProofUploadField({ form }: { form: OrderForm }) {
       );
       form.setFieldValue("paymentProofFile", compressed);
     } catch {
-      setError("Couldn't process that image — please try a different one.");
+      setError("Couldn't process that image. Please try a different one.");
     } finally {
       setIsCompressing(false);
     }
@@ -215,7 +261,7 @@ function ProofUploadField({ form }: { form: OrderForm }) {
         disabled={isCompressing}
       />
       <p className="text-sm text-muted-foreground">
-        JPG, PNG, or WEBP — large images are resized automatically, up to{" "}
+        JPG, PNG, or WEBP, large images are resized automatically, up to{" "}
         {MAX_PROOF_IMAGE_SIZE_MB}MB.
       </p>
       {isCompressing && (
@@ -223,8 +269,7 @@ function ProofUploadField({ form }: { form: OrderForm }) {
       )}
       {proofFile && !isCompressing && (
         <p className="text-sm text-foreground">
-          Attached: {proofFile.name} (
-          {(proofFile.size / 1024 / 1024).toFixed(1)}MB)
+          Attached: {proofFile.name} ({getFileSizeLabel(proofFile.size)})
         </p>
       )}
       {error && <FieldError>{error}</FieldError>}

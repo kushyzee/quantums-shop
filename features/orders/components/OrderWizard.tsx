@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useSelector } from "@tanstack/react-form";
 import type { ReactFormExtendedApi } from "@tanstack/react-form";
 import type { ServiceType } from "@/features/catalog/schema";
@@ -12,6 +12,7 @@ import { createOrder } from "../actions";
 import { ItemVariantStep } from "./ItemVariantStep";
 import { CustomerInfoStep } from "./CustomerInfoStep";
 import { OrderConfirmation } from "./OrderConfirmation";
+import { ArrowRight } from "lucide-react";
 
 export type OrderFormValues = {
   serviceType: ServiceType;
@@ -110,6 +111,13 @@ export function OrderWizard({
   );
   const selection = findSelection(catalogItems, selectedVariantId);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [confirmation, step]);
+
   if (confirmation) {
     return <OrderConfirmation {...confirmation} />;
   }
@@ -120,7 +128,9 @@ export function OrderWizard({
         <li className={step === 1 ? "font-medium text-foreground" : undefined}>
           1. Choose item
         </li>
-        <li aria-hidden>→</li>
+        <li aria-hidden>
+          <ArrowRight />
+        </li>
         <li className={step === 2 ? "font-medium text-foreground" : undefined}>
           2. Your details
         </li>
