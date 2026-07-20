@@ -4,6 +4,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { getVariantForOrder } from "@/features/catalog/queries";
 import { createOrderSchema, proofImageSchema, deriveOrderCode } from "./schema";
+import { notifyNewOrder } from "./notifyTelegram";
 
 type ActionResult<TData = undefined> =
   | { success: true; data: TData }
@@ -136,11 +137,23 @@ export async function createOrder(
     };
   }
 
+  const orderCode = deriveOrderCode(orderId);
+
+  void notifyNewOrder({
+    orderId,
+    orderCode,
+    serviceType: order.serviceType,
+    itemName: variant.itemName,
+    variantLabel: variant.variantLabel,
+    price: variant.price,
+    senderAccountName: order.senderAccountName,
+  });
+
   return {
     success: true,
     data: {
       orderId,
-      orderCode: deriveOrderCode(orderId),
+      orderCode,
     },
   };
 }
