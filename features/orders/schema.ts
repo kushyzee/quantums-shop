@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { SERVICE_TYPES } from "@/features/catalog/schema";
 
 export const MAX_PROOF_IMAGE_SIZE_MB = 5;
 export const MAX_PROOF_IMAGE_SIZE_BYTES = MAX_PROOF_IMAGE_SIZE_MB * 1024 * 1024;
@@ -67,3 +68,44 @@ export const proofImageSchema = z
 export function deriveOrderCode(orderId: string): string {
   return `QS-${orderId.replace(/-/g, "").slice(0, 8).toUpperCase()}`;
 }
+
+export const orderFormLiveValidationSchema = z
+  .object({
+    serviceType: z.enum(SERVICE_TYPES),
+    catalogVariantId: z.uuid("Select a valid item and variant"),
+    senderAccountName: senderAccountNameSchema,
+    customerWhatsappNumber: whatsappNumberSchema,
+    gameAccountEmail: z.string(),
+    gameAccountPassword: z.string(),
+    accountAccessConsent: z.boolean(),
+    paymentProofFile: z.instanceof(File).nullable(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.serviceType !== "gaming") {
+      return;
+    }
+
+    if (!z.email().safeParse(data.gameAccountEmail).success) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["gameAccountEmail"],
+        message: "Enter a valid account email",
+      });
+    }
+
+    if (data.gameAccountPassword.length < 1) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["gameAccountPassword"],
+        message: "Enter the account password",
+      });
+    }
+
+    if (data.accountAccessConsent !== true) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["accountAccessConsent"],
+        message: "Please confirm you understand before continuing",
+      });
+    }
+  });

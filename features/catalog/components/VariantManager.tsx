@@ -160,7 +160,7 @@ function VariantTable({
                   colSpan={4}
                   className="py-6 text-center text-muted-foreground"
                 >
-                  No variants yet.
+                  No options yet.
                 </TableCell>
               </TableRow>
             )}
@@ -207,9 +207,7 @@ function VariantTable({
                         });
                       }}
                       aria-label={
-                        variant.active
-                          ? "Deactivate variant"
-                          : "Activate variant"
+                        variant.active ? "Deactivate option" : "Activate option"
                       }
                     />
                   </TableCell>
@@ -269,7 +267,7 @@ function VariantEditRow({
         result.fieldErrors?.label?.[0] ??
         result.fieldErrors?.price?.[0] ??
         result.formError;
-      setError(firstError ?? "Could not save variant.");
+      setError(firstError ?? "Could not save option.");
       return;
     }
     onSaved({ ...variant, label: label.trim(), price: Number(price) });

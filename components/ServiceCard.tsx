@@ -1,4 +1,5 @@
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import {
   Card,
   CardContent,
@@ -18,7 +19,8 @@ interface ServiceCardProps {
   title: string;
   description: string;
   subServices: string[];
-  message: string;
+  message?: string;
+  orderHref?: string;
   delay: number;
 }
 
@@ -48,10 +50,9 @@ export default function ServiceCard({
   description,
   subServices,
   message,
+  orderHref,
   delay,
 }: ServiceCardProps) {
-  const whatsappUrl = getWhatsappUrl(message);
-
   return (
     <motion.div
       variants={serviceItems}
@@ -91,20 +92,28 @@ export default function ServiceCard({
           </ul>
         </CardContent>
         <CardFooter className="border-none">
-          <a
-            className="w-full text-primary"
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full border-primary/30 hover:border-primary/50 hover:bg-muted transition-all duration-200"
+          {orderHref ? (
+            <Link href={orderHref} className="w-full">
+              <Button size="lg" className="w-full transition-all duration-200">
+                Place an Order <ArrowUpRight />
+              </Button>
+            </Link>
+          ) : (
+            <a
+              className="w-full text-primary"
+              href={getWhatsappUrl(message ?? "")}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Trade Now <ArrowUpRight />
-            </Button>
-          </a>
+              <Button
+                size="lg"
+                variant="outline"
+                className="w-full border-primary/30 hover:border-primary/50 hover:bg-muted transition-all duration-200"
+              >
+                Trade Now <ArrowUpRight />
+              </Button>
+            </a>
+          )}
         </CardFooter>
       </Card>
     </motion.div>

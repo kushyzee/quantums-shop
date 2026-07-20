@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -5,46 +6,113 @@ import { useForm, useSelector } from "@tanstack/react-form";
 import type { ReactFormExtendedApi } from "@tanstack/react-form";
 import type { ServiceType } from "@/features/catalog/schema";
 import type { PublicCatalogItem } from "@/features/catalog/queries";
+import type { BankAccountRow } from "@/features/settings/queries";
+import { orderFormLiveValidationSchema } from "../schema";
+import { createOrder } from "../actions";
 import { ItemVariantStep } from "./ItemVariantStep";
+import { CustomerInfoStep } from "./CustomerInfoStep";
+import { OrderConfirmation } from "./OrderConfirmation";
 
 export type OrderFormValues = {
+  serviceType: ServiceType;
   catalogVariantId: string;
   senderAccountName: string;
   customerWhatsappNumber: string;
   gameAccountEmail: string;
   gameAccountPassword: string;
   accountAccessConsent: boolean;
+  paymentProofFile: File | null;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type OrderForm = ReactFormExtendedApi<OrderFormValues, any, any, any, any, any, any, any, any, any, any, any>;
-
-const EMPTY_VALUES: OrderFormValues = {
-  catalogVariantId: "",
-  senderAccountName: "",
-  customerWhatsappNumber: "",
-  gameAccountEmail: "",
-  gameAccountPassword: "",
-  accountAccessConsent: false,
-};
+export type OrderForm = ReactFormExtendedApi<
+  OrderFormValues,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any,
+  any
+>;
 
 type OrderWizardProps = {
   serviceType: ServiceType;
   catalogItems: PublicCatalogItem[];
+  bankAccounts: BankAccountRow[];
 };
 
-export function OrderWizard({ serviceType, catalogItems }: OrderWizardProps) {
-  const [step, setStep] = useState<1 | 2>(1);
+type WizardStep = 1 | 2;
+
+export function OrderWizard({
+  serviceType,
+  catalogItems,
+  bankAccounts,
+}: OrderWizardProps) {
+  const [step, setStep] = useState<WizardStep>(1);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [confirmation, setConfirmation] = useState<{
+    orderCode: string;
+    itemName: string;
+    variantLabel: string;
+    price: number;
+    senderAccountName: string;
+  } | null>(null);
 
   const form = useForm({
-    defaultValues: EMPTY_VALUES,
+    defaultValues: {
+      serviceType,
+      catalogVariantId: "",
+      senderAccountName: "",
+      customerWhatsappNumber: "",
+      gameAccountEmail: "",
+      gameAccountPassword: "",
+      accountAccessConsent: false,
+      paymentProofFile: null,
+    } as OrderFormValues,
+    validators: {
+      onBlur: orderFormLiveValidationSchema,
+      onChange: orderFormLiveValidationSchema,
+    },
     onSubmit: async ({ value }) => {
-      console.log("order submit (placeholder)", value);
+      setSubmitError(null);
+
+      const selectedVariant = findSelection(
+        catalogItems,
+        value.catalogVariantId,
+      );
+
+      const result = await createOrder(value, value.paymentProofFile);
+
+      if (!result.success) {
+        setSubmitError(
+          result.formError ?? "Something went wrong. Please try again.",
+        );
+        return;
+      }
+
+      setConfirmation({
+        orderCode: result.data.orderCode,
+        itemName: selectedVariant?.item.name ?? "",
+        variantLabel: selectedVariant?.variant.label ?? "",
+        price: selectedVariant?.variant.price ?? 0,
+        senderAccountName: value.senderAccountName,
+      });
     },
   });
 
-  const selectedVariantId = useSelector(form.store, (s) => s.values.catalogVariantId);
+  const selectedVariantId = useSelector(
+    form.store,
+    (s) => s.values.catalogVariantId,
+  );
   const selection = findSelection(catalogItems, selectedVariantId);
+
+  if (confirmation) {
+    return <OrderConfirmation {...confirmation} />;
+  }
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col gap-6">
@@ -67,25 +135,24 @@ export function OrderWizard({ serviceType, catalogItems }: OrderWizardProps) {
       )}
 
       {step === 2 && (
-        <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
-          <p>
-            Bank details, your info
-            {serviceType === "gaming" ? ", account access" : ""}, and proof
-            upload land here in the next phase.
-          </p>
+        <>
           {selection && (
-            <p className="mt-2 text-foreground">
-              Selected: {selection.item.name} — {selection.variant.label}
+            <p className="text-sm text-muted-foreground">
+              {selection.item.name}: {selection.variant.label}
             </p>
           )}
-          <button
-            type="button"
-            className="mt-4 text-sm text-primary underline underline-offset-4"
-            onClick={() => setStep(1)}
-          >
-            ← Back
-          </button>
-        </div>
+          {submitError && (
+            <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {submitError}
+            </div>
+          )}
+          <CustomerInfoStep
+            form={form}
+            serviceType={serviceType}
+            bankAccounts={bankAccounts}
+            onBack={() => setStep(1)}
+          />
+        </>
       )}
     </div>
   );

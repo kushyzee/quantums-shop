@@ -48,7 +48,7 @@ export default function OurServices() {
             "Mobile Legends",
             "Free Fire Diamonds",
           ]}
-          message="Hello Quantum, I want to top-up my game"
+          orderHref="/gaming/order"
           delay={0.2}
         />
         <ServiceCard
@@ -56,7 +56,7 @@ export default function OurServices() {
           title="Gift Cards"
           description="Premium gift cards at competitive rates"
           subServices={["PlayStation (PSN)", "iTunes", "Steam", "Google Play"]}
-          message="Hello Quantum, I want to buy gift cards"
+          orderHref="/gift-cards/order"
           delay={0.3}
         />
       </div>

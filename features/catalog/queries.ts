@@ -38,6 +38,13 @@ export type PublicCatalogItem = {
   variants: PublicCatalogVariant[];
 };
 
+export type OrderVariantSnapshot = {
+  itemName: string;
+  variantLabel: string;
+  price: number;
+  serviceType: ServiceType;
+};
+
 export async function listCatalogAdmin(): Promise<CatalogItemListRow[]> {
   const supabase = await createClient();
 
@@ -159,4 +166,49 @@ export async function listCatalogPublic(
       price: v.price,
     })),
   }));
+}
+
+export async function getVariantForOrder(
+  variantId: string,
+): Promise<OrderVariantSnapshot | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("catalog_variants")
+    .select(
+      `
+      label,
+      price,
+      active,
+      catalog_items!inner ( name, service_type, active )
+    `,
+    )
+    .eq("id", variantId)
+    .eq("active", true)
+    .eq("catalog_items.active", true)
+    .maybeSingle();
+
+  if (error) {
+    console.error("getVariantForOrder error:", error.code, error.message);
+    return null;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  const item = Array.isArray(data.catalog_items)
+    ? data.catalog_items[0]
+    : data.catalog_items;
+
+  if (!item) {
+    return null;
+  }
+
+  return {
+    itemName: item.name,
+    variantLabel: data.label,
+    price: data.price,
+    serviceType: item.service_type,
+  };
 }

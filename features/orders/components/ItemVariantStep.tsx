@@ -33,7 +33,7 @@ export function ItemVariantStep({
   if (catalogItems.length === 0) {
     return (
       <div className="rounded-lg border border-border bg-card p-6 text-sm text-muted-foreground">
-        Nothing&rsquo;s available to order right now — please check back shortly
+        Nothing&rsquo;s available to order right now, please check back shortly
         or reach out on WhatsApp.
       </div>
     );
@@ -56,13 +56,13 @@ export function ItemVariantStep({
               <Field>
                 <FieldLabel htmlFor="catalog-item">Item</FieldLabel>
                 <Select
+                  items={catalogItems.map((item) => ({
+                    label: item.name,
+                    value: item.id,
+                  }))}
                   value={item?.id ?? ""}
                   onValueChange={(itemId) => {
                     const nextItem = catalogItems.find((i) => i.id === itemId);
-                    // Changing the item always resets to its cheapest
-                    // (first, since the query sorts price ascending)
-                    // variant — a stale variant id from a different item
-                    // is never valid.
                     field.handleChange(nextItem?.variants[0]?.id ?? "");
                   }}
                 >
@@ -90,6 +90,10 @@ export function ItemVariantStep({
               >
                 <FieldLabel htmlFor="catalog-variant">Option</FieldLabel>
                 <Select
+                  items={item?.variants.map((variant) => ({
+                    label: variant.label,
+                    value: variant.id,
+                  }))}
                   value={field.state.value}
                   onValueChange={(variantId) =>
                     field.handleChange(variantId ?? "")

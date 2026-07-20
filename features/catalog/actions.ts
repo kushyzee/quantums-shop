@@ -89,8 +89,6 @@ export async function updateItem(input: unknown): Promise<ActionResult> {
   return { success: true, data: undefined };
 }
 
-// No confirmation dialog by design — reversible, non-destructive.
-// See PROJECT_CONTEXT.md section 9b.
 export async function toggleItemActive(input: unknown): Promise<ActionResult> {
   const parsed = toggleItemActiveSchema.safeParse(input);
 
@@ -116,8 +114,6 @@ export async function toggleItemActive(input: unknown): Promise<ActionResult> {
   revalidatePath(`/admin/catalog/${parsed.data.id}`);
   return { success: true, data: undefined };
 }
-
-// ── Variants ─────────────────────────────────────────────────────────
 
 export async function createVariant(
   input: unknown,
@@ -193,8 +189,6 @@ export async function updateVariant(input: unknown): Promise<ActionResult> {
   return { success: true, data: undefined };
 }
 
-// No confirmation dialog by design — reversible, non-destructive.
-// See PROJECT_CONTEXT.md section 9b.
 export async function toggleVariantActive(
   input: unknown,
 ): Promise<ActionResult> {

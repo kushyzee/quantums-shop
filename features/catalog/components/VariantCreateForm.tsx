@@ -55,7 +55,7 @@ export function VariantCreateForm({
       }}
       className="flex flex-col gap-4 rounded-lg border border-border p-4"
     >
-      <h3 className="text-sm font-medium">Add variant</h3>
+      <h3 className="text-sm font-medium">Add option</h3>
 
       {formError && (
         <div className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -120,7 +120,7 @@ export function VariantCreateForm({
             disabled={!canSubmit || isSubmitting}
             className="self-start"
           >
-            {isSubmitting ? "Adding..." : "Add variant"}
+            {isSubmitting ? "Adding..." : "Add option"}
           </Button>
         )}
       </form.Subscribe>
