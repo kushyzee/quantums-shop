@@ -1,5 +1,19 @@
 import { z } from "zod";
 import { SERVICE_TYPES } from "@/features/catalog/schema";
+import type { ServiceType } from "@/features/catalog/schema";
+
+export const ORDER_STATUSES = [
+  "payment_submitted",
+  "verified",
+  "completed",
+  "cancelled",
+] as const;
+export type OrderStatus = (typeof ORDER_STATUSES)[number];
+
+export const DEFAULT_ORDER_STATUS_FILTER: OrderStatus[] = [
+  "payment_submitted",
+  "verified",
+];
 
 export const MAX_PROOF_IMAGE_SIZE_MB = 5;
 export const MAX_PROOF_IMAGE_SIZE_BYTES = MAX_PROOF_IMAGE_SIZE_MB * 1024 * 1024;
@@ -109,3 +123,21 @@ export const orderFormLiveValidationSchema = z
       });
     }
   });
+
+export function parseOrderStatusFilter(raw?: string): OrderStatus[] {
+  if (!raw) return DEFAULT_ORDER_STATUS_FILTER;
+  if (raw === "none") return [];
+
+  const parsed = raw
+    .split(",")
+    .filter((value): value is OrderStatus =>
+      (ORDER_STATUSES as readonly string[]).includes(value),
+    );
+
+  return parsed.length > 0 ? parsed : DEFAULT_ORDER_STATUS_FILTER;
+}
+
+export function parseServiceTypeFilter(raw?: string): ServiceType | "all" {
+  if (raw === "gaming" || raw === "giftcard") return raw;
+  return "all";
+}
