@@ -39,7 +39,7 @@ export async function notifyNewOrder(
     `🛒 *New Order: ${escapeMarkdown(order.orderCode)}*`,
     ``,
     `*Service:* ${escapeMarkdown(SERVICE_LABELS[order.serviceType])}`,
-    `*Item:* ${escapeMarkdown(order.itemName)} ${escapeMarkdown(order.variantLabel)}`,
+    `*Item:* ${escapeMarkdown(order.variantLabel)} ${escapeMarkdown(order.itemName)}`,
     `*Price:* ${escapeMarkdown(formatNaira(order.price))}`,
     `*Sender:* ${escapeMarkdown(order.senderAccountName)}`,
   ].join("\n");
