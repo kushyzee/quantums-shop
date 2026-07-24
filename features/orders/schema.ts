@@ -67,17 +67,30 @@ export type CreateOrderInput = z.infer<typeof createOrderSchema>;
 export type GamingOrderInput = z.infer<typeof gamingOrderSchema>;
 export type GiftCardOrderInput = z.infer<typeof giftCardOrderSchema>;
 
+const proofImageRefinements = {
+  type: (file: File) =>
+    (ACCEPTED_PROOF_IMAGE_TYPES as readonly string[]).includes(file.type),
+  size: (file: File) => file.size <= MAX_PROOF_IMAGE_SIZE_BYTES,
+};
+
 export const proofImageSchema = z
   .instanceof(File)
-  .refine(
-    (file) =>
-      (ACCEPTED_PROOF_IMAGE_TYPES as readonly string[]).includes(file.type),
-    { message: "Only JPG, PNG, or WEBP images are accepted" },
-  )
-  .refine((file) => file.size <= MAX_PROOF_IMAGE_SIZE_BYTES, {
+  .refine(proofImageRefinements.type, {
+    message: "Only JPG, PNG, or WEBP images are accepted",
+  })
+  .refine(proofImageRefinements.size, {
     message: `Image must be ${MAX_PROOF_IMAGE_SIZE_MB}MB or smaller`,
   })
   .optional();
+
+export const completionProofImageSchema = z
+  .instanceof(File)
+  .refine(proofImageRefinements.type, {
+    message: "Only JPG, PNG, or WEBP images are accepted",
+  })
+  .refine(proofImageRefinements.size, {
+    message: `Image must be ${MAX_PROOF_IMAGE_SIZE_MB}MB or smaller`,
+  });
 
 export function deriveOrderCode(orderId: string): string {
   return `QS-${orderId.replace(/-/g, "").slice(0, 8).toUpperCase()}`;
@@ -141,3 +154,28 @@ export function parseServiceTypeFilter(raw?: string): ServiceType | "all" {
   if (raw === "gaming" || raw === "giftcard") return raw;
   return "all";
 }
+
+export const ORDER_ACTIONS_BY_STATUS: Record<
+  OrderStatus,
+  Array<"verify" | "complete" | "cancel">
+> = {
+  payment_submitted: ["verify", "cancel"],
+  verified: ["complete", "cancel"],
+  completed: [],
+  cancelled: [],
+};
+
+export const orderIdSchema = z.object({
+  orderId: z.uuid("Invalid order"),
+});
+export type OrderIdInput = z.infer<typeof orderIdSchema>;
+
+export const cancelOrderSchema = z.object({
+  orderId: z.uuid("Invalid order"),
+  cancellationReason: z
+    .string()
+    .trim()
+    .min(1, "Enter a reason for cancelling this order")
+    .max(500, "That reason looks too long, please shorten it"),
+});
+export type CancelOrderInput = z.infer<typeof cancelOrderSchema>;

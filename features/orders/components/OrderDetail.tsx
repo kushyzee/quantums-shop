@@ -2,10 +2,11 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { formatNaira } from "@/lib/currency";
 import { OrderStatusBadge } from "./OrderStatusBadge";
 import { ServiceTypeBadge } from "./ServiceTypeBadge";
+import { RevealCredentialsPanel } from "./RevealCredentialsPanel";
+import { OrderActionToolbar } from "./OrderActionToolbar";
 import type { OrderDetail as OrderDetailType } from "../queries";
 
 function DetailRow({ label, value }: { label: string; value: ReactNode }) {
@@ -36,6 +37,8 @@ export function OrderDetail({ order }: { order: OrderDetailType }) {
         <OrderStatusBadge status={order.status} />
         <ServiceTypeBadge serviceType={order.serviceType} />
       </div>
+
+      <OrderActionToolbar orderId={order.id} status={order.status} />
 
       <Card>
         <CardHeader>
@@ -78,17 +81,10 @@ export function OrderDetail({ order }: { order: OrderDetailType }) {
             <DetailRow
               label="Game account credentials"
               value={
-                <Badge
-                  variant={
-                    order.credentialStatus === "stored"
-                      ? "outline"
-                      : "secondary"
-                  }
-                >
-                  {order.credentialStatus === "stored"
-                    ? "Credentials stored"
-                    : "Credentials purged"}
-                </Badge>
+                <RevealCredentialsPanel
+                  orderId={order.id}
+                  credentialStatus={order.credentialStatus}
+                />
               }
             />
           )}
