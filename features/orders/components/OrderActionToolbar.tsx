@@ -1,24 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ORDER_ACTIONS_BY_STATUS, type OrderStatus } from "../schema";
+import { ORDER_ACTIONS_BY_STATUS } from "../schema";
+import type { OrderDetail } from "../queries";
 import { VerifyOrderButton } from "./VerifyOrderButton";
 import { CancelOrderDialog } from "./CancelOrderDialog";
-import { CompleteOrderForm } from "./CompleteOrderForm";
+import { CompleteOrderButton } from "./CompleteOrderButton";
+import { MessageCustomerButton } from "./MessageCustomerButton";
 
-export function OrderActionToolbar({
-  orderId,
-  status,
-}: {
-  orderId: string;
-  status: OrderStatus;
-}) {
+export function OrderActionToolbar({ order }: { order: OrderDetail }) {
   const router = useRouter();
-  const availableActions = ORDER_ACTIONS_BY_STATUS[status];
-
-  if (availableActions.length === 0) {
-    return null;
-  }
+  const availableActions = ORDER_ACTIONS_BY_STATUS[order.status];
 
   function handleChanged() {
     router.refresh();
@@ -26,14 +18,16 @@ export function OrderActionToolbar({
 
   return (
     <div className="flex flex-wrap items-center gap-3">
+      <MessageCustomerButton order={order} />
+
       {availableActions.includes("verify") && (
-        <VerifyOrderButton orderId={orderId} onVerified={handleChanged} />
+        <VerifyOrderButton orderId={order.id} onVerified={handleChanged} />
       )}
       {availableActions.includes("complete") && (
-        <CompleteOrderForm orderId={orderId} onCompleted={handleChanged} />
+        <CompleteOrderButton orderId={order.id} onCompleted={handleChanged} />
       )}
       {availableActions.includes("cancel") && (
-        <CancelOrderDialog orderId={orderId} onCancelled={handleChanged} />
+        <CancelOrderDialog orderId={order.id} onCancelled={handleChanged} />
       )}
     </div>
   );

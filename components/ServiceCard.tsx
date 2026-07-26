@@ -63,7 +63,7 @@ export default function ServiceCard({
     >
       <Card className="ring-primary/30 pt-0 hover:shadow-lg card-glow transition-all duration-200">
         <CardHeader className="px-0">
-          <div className="h-[295px] w-full">
+          <div className="h-73.75 w-full">
             <Image
               className="h-full w-full object-cover"
               src={image}

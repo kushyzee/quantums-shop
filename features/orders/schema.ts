@@ -83,15 +83,6 @@ export const proofImageSchema = z
   })
   .optional();
 
-export const completionProofImageSchema = z
-  .instanceof(File)
-  .refine(proofImageRefinements.type, {
-    message: "Only JPG, PNG, or WEBP images are accepted",
-  })
-  .refine(proofImageRefinements.size, {
-    message: `Image must be ${MAX_PROOF_IMAGE_SIZE_MB}MB or smaller`,
-  });
-
 export function deriveOrderCode(orderId: string): string {
   return `QS-${orderId.replace(/-/g, "").slice(0, 8).toUpperCase()}`;
 }

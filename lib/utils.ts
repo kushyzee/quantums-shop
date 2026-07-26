@@ -12,3 +12,10 @@ export function getWhatsappUrl(message: string) {
 
   return `https://wa.me/2349018285949?text=${encodedMessage}`;
 }
+
+export function getWhatsappUrlForNumber(phoneNumber: string, message: string) {
+  const digitsOnly = phoneNumber.replace(/\D/g, "");
+  const encodedMessage = encodeURIComponent(message);
+
+  return `https://wa.me/${digitsOnly}?text=${encodedMessage}`;
+}

@@ -38,7 +38,7 @@ export function OrderDetail({ order }: { order: OrderDetailType }) {
         <ServiceTypeBadge serviceType={order.serviceType} />
       </div>
 
-      <OrderActionToolbar orderId={order.id} status={order.status} />
+      <OrderActionToolbar order={order} />
 
       <Card>
         <CardHeader>
@@ -91,38 +91,23 @@ export function OrderDetail({ order }: { order: OrderDetailType }) {
         </CardContent>
       </Card>
 
-      {(order.paymentProofSignedUrl || order.completionProofSignedUrl) && (
+      {order.paymentProofSignedUrl && (
         <Card>
           <CardHeader>
             <CardTitle>Proof images</CardTitle>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {order.paymentProofSignedUrl && (
-              <div className="flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Payment proof
-                </span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={order.paymentProofSignedUrl}
-                  alt="Payment proof"
-                  className="rounded-md border border-border"
-                />
-              </div>
-            )}
-            {order.completionProofSignedUrl && (
-              <div className="flex flex-col gap-2">
-                <span className="text-xs uppercase tracking-wide text-muted-foreground">
-                  Completion proof
-                </span>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={order.completionProofSignedUrl}
-                  alt="Completion proof"
-                  className="rounded-md border border-border"
-                />
-              </div>
-            )}
+          <CardContent className="grid grid-cols-1 gap-4">
+            <div className="flex flex-col gap-2">
+              <span className="text-xs uppercase tracking-wide text-muted-foreground">
+                Payment proof
+              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={order.paymentProofSignedUrl}
+                alt="Payment proof"
+                className="rounded-md border border-border"
+              />
+            </div>
           </CardContent>
         </Card>
       )}

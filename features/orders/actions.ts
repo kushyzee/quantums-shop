@@ -7,7 +7,6 @@ import { getVariantForOrder } from "@/features/catalog/queries";
 import {
   createOrderSchema,
   proofImageSchema,
-  completionProofImageSchema,
   orderIdSchema,
   cancelOrderSchema,
   ORDER_ACTIONS_BY_STATUS,
@@ -306,23 +305,12 @@ export async function revealCredentials(
 
 const COMPLETION_CREDENTIALS_PURGE_HOURS = 48;
 
-export async function completeOrder(
-  orderId: string,
-  proofFile: File,
-): Promise<ActionResult> {
-  const parsedId = orderIdSchema.safeParse({ orderId });
-  if (!parsedId.success) {
+export async function completeOrder(input: unknown): Promise<ActionResult> {
+  const parsed = orderIdSchema.safeParse(input);
+  if (!parsed.success) {
     return { success: false, formError: "Invalid request." };
   }
-
-  const proofParsed = completionProofImageSchema.safeParse(proofFile);
-  if (!proofParsed.success) {
-    return {
-      success: false,
-      formError:
-        "That completion proof image couldn't be used, please try a different file.",
-    };
-  }
+  const { orderId } = parsed.data;
 
   const supabase = await createClient();
 
@@ -350,19 +338,6 @@ export async function completeOrder(
     };
   }
 
-  const path = `completion/${orderId}.jpg`;
-  const { error: uploadError } = await supabase.storage
-    .from("order-proofs")
-    .upload(path, proofFile, { contentType: "image/jpeg" });
-
-  if (uploadError) {
-    console.error("completeOrder proof upload error:", uploadError.message);
-    return {
-      success: false,
-      formError: "Couldn't upload the completion proof. Please try again.",
-    };
-  }
-
   const completedAt = new Date();
   const purgeAt = new Date(
     completedAt.getTime() + COMPLETION_CREDENTIALS_PURGE_HOURS * 60 * 60 * 1000,
@@ -372,7 +347,6 @@ export async function completeOrder(
     .from("orders")
     .update({
       status: "completed",
-      completion_proof_url: path,
       completed_at: completedAt.toISOString(),
       credentials_purge_at: purgeAt.toISOString(),
     })
